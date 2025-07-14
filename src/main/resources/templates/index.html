@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>VCUBE Generative AI Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            line-height: 1.5;
+            white-space: pre-line;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-message {
+            background-color: #d1e7ff;
+            align-self: flex-end;
+        }
+
+        .ai-message {
+            background-color: #e9ecef;
+            align-self: flex-start;
+        }
+
+        .emoji {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 VCUBE Generative AI Chat 💬</h1>
+
+        <!-- Search bar -->
+        <form action="/search" method="post" class="search-bar">
+            <input type="text" id="query" name="query" placeholder="Ask me anything..." required>
+            <button type="submit">Send</button>
+            <a href="/clear">
+                <button type="button">Clear</button>
+            </a>
+        </form>
+
+        <!-- Chat box -->
+        <div class="chat-box" id="chat-box">
+            <div class="chat-row" th:each="message : ${chatHistory}">
+                <div class="message user-message">
+                    <span class="emoji">💬</span>
+                    <span th:text="${message[0]}"></span>
+                </div>
+                <div class="message ai-message">
+                    <span class="emoji">🤖</span>
+                    <span th:text="${message[1]}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll to the latest message in the chat box
+        function scrollToLatestMessage() {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Call the function when the page loads
+        window.onload = scrollToLatestMessage;
+
+        // Observe DOM changes and scroll to the latest message dynamically
+        const observer = new MutationObserver(() => scrollToLatestMessage());
+        observer.observe(document.getElementById('chat-box'), { childList: true, subtree: true });
+    </script>
+</body>
+</html>
