@@ -27,17 +27,6 @@ public class SearchController {
 	@Value("${openai.api.key}")
 	private String apiKey;
 
-public boolean isPrime(int number) {
-    if (number <= 1) {
-        return false; // Numbers less than or equal to 1 are not prime
-    }
-    for (int i = 2; i <= Math.sqrt(number); i++) {
-        if (number % i == 0) {
-            return false; // If divisible by any number other than 1 and itself, not prime
-        }
-    }
-    return true; // Otherwise, the number is prime
-}
 
 	private static final String OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
