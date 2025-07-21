@@ -26,7 +26,7 @@ public class SearchController {
 
 	@Value("${openai.api.key}")
 	private String apiKey;
-private String age;
+
 
 	private static final String OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
